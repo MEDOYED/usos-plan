@@ -1,11 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "api/index.ts",
+  "main": "api/index.js",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "bun --watch src/index.ts",
+    "build": "bun build src/app.ts --target=node --outfile=api/index.js",
     "start": "bun src/index.ts",
     "test": "bun test"
   },

@@ -12,12 +12,8 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
-app.options('*', cors());
 
 app.use(express.json());
-
-// API routes
-app.use('/api', timetableRoutes);
 
 // Root & API info fallback
 const apiInfo = (_req: express.Request, res: express.Response) => {
@@ -36,6 +32,10 @@ const apiInfo = (_req: express.Request, res: express.Response) => {
 
 app.get('/', apiInfo);
 app.get('/api', apiInfo);
+
+// API routes (support both /api/... and direct /...)
+app.use('/api', timetableRoutes);
+app.use('/', timetableRoutes);
 
 // 404 fallback handler (always returns JSON)
 app.use((req, res) => {
