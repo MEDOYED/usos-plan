@@ -1,0 +1,76 @@
+# ==============================================================================
+# Git Ignore Configuration for USOS Timetable Project (Monorepo Root)
+# ==============================================================================
+
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Production & Build outputs
+dist/
+*/dist/
+dist-ssr/
+*/dist-ssr/
+out/
+*/out/
+storybook-static/
+*/storybook-static/
+
+# Environment variables & secrets
+.env
+*.env
+!.env.example
+*.env.example
+.env*.local
+*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*storybook.log
+
+# Test & Coverage
+coverage/
+*/coverage/
+*.lcov
+.nyc_output/
+.playwright/
+test-results/
+
+# Temporary / Scratch files & Debug screenshots
+*.png
+*.jpg
+*.jpeg
+*.gif
+!src/assets/**/*.png
+!src/assets/**/*.jpg
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.svg
+
+# IDEs & Editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Vercel Deployment cache
+.vercel/

@@ -1,0 +1,87 @@
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--md-sys-shape-corner-full);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  transition: all var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+  user-select: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.38;
+  }
+
+  /* Sizes */
+  &.sizeSm {
+    width: 32px;
+    height: 32px;
+  }
+
+  &.sizeMd {
+    width: 40px;
+    height: 40px;
+  }
+
+  &.sizeLg {
+    width: 48px;
+    height: 48px;
+  }
+
+  /* Variants */
+  &.variantStandard {
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--md-sys-color-on-surface-variant) 8%, transparent);
+      color: var(--md-sys-color-on-surface);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+  }
+
+  &.variantFilled {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.08);
+      box-shadow: var(--md-sys-elevation-level1);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+  }
+
+  &.variantTonal {
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--md-sys-color-secondary-container) 85%, var(--md-sys-color-on-secondary-container));
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+  }
+
+  &.variantOutlined {
+    border: 1px solid var(--md-sys-color-outline);
+    color: var(--md-sys-color-on-surface-variant);
+
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+      border-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-primary);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+  }
+}

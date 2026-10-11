@@ -1,0 +1,41 @@
+.navigator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--md-sys-spacing-m);
+  padding: var(--md-sys-spacing-s) var(--md-sys-spacing-m);
+  background-color: var(--md-sys-color-surface-container-low);
+  border-radius: var(--md-sys-shape-corner-extra-large);
+  border: 1px solid var(--md-sys-color-outline-variant);
+
+  @media (max-width: 640px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--md-sys-spacing-xs);
+  }
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--md-sys-spacing-xs);
+}
+
+.dateDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.rangeText {
+  font-family: var(--md-sys-typescale-font-brand);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface);
+}
+
+.subText {
+  font-size: 12px;
+  color: var(--md-sys-color-on-surface-variant);
+}

@@ -1,0 +1,12 @@
+.filterContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--md-sys-spacing-xs);
+  overflow-x: auto;
+  padding: var(--md-sys-spacing-xxs) 0;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -1,0 +1,106 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--md-sys-spacing-xs);
+  border-radius: var(--md-sys-shape-corner-full);
+  font-family: var(--md-sys-typescale-font-brand);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.38;
+  }
+
+  /* Sizes */
+  &.sizeSm {
+    height: 32px;
+    padding: 0 var(--md-sys-spacing-s);
+    font-size: 13px;
+  }
+
+  &.sizeMd {
+    height: 40px;
+    padding: 0 var(--md-sys-spacing-m);
+    font-size: 14px;
+  }
+
+  &.sizeLg {
+    height: 48px;
+    padding: 0 var(--md-sys-spacing-l);
+    font-size: 16px;
+  }
+
+  /* Variants */
+  &.variantFilled {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    box-shadow: var(--md-sys-elevation-level1);
+
+    &:hover:not(:disabled) {
+      box-shadow: var(--md-sys-elevation-level2);
+      filter: brightness(1.08);
+    }
+
+    &:active:not(:disabled) {
+      box-shadow: var(--md-sys-elevation-level1);
+      transform: scale(0.98);
+    }
+  }
+
+  &.variantTonal {
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--md-sys-color-secondary-container) 90%, var(--md-sys-color-on-secondary-container));
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+  }
+
+  &.variantOutlined {
+    background-color: transparent;
+    color: var(--md-sys-color-primary);
+    border-color: var(--md-sys-color-outline);
+
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+      border-color: var(--md-sys-color-primary);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+  }
+
+  &.variantText {
+    background-color: transparent;
+    color: var(--md-sys-color-primary);
+    padding-left: var(--md-sys-spacing-s);
+    padding-right: var(--md-sys-spacing-s);
+
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+  }
+
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

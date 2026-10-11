@@ -1,0 +1,43 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--md-sys-spacing-l);
+  padding: var(--md-sys-spacing-l) 0 var(--md-sys-spacing-xxl) 0;
+
+  @media (max-width: 640px) {
+    padding: var(--md-sys-spacing-m) 0 80px 0;
+    gap: var(--md-sys-spacing-m);
+  }
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--md-sys-spacing-m);
+}
+
+.errorCard {
+  background-color: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+  padding: var(--md-sys-spacing-m);
+  border-radius: var(--md-sys-shape-corner-large);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--md-sys-spacing-m);
+}
+
+.loadingSkeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(240px, 1fr));
+  gap: var(--md-sys-spacing-m);
+
+  @media (max-width: 1280px) {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    display: flex;
+    flex-direction: column;
+  }
+}

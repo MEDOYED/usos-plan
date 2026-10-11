@@ -1,0 +1,44 @@
+.card {
+  border-radius: var(--md-sys-shape-corner-extra-large);
+  padding: var(--md-sys-spacing-l);
+  position: relative;
+  transition: all var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+  border: 1px solid transparent;
+
+  &.interactive {
+    cursor: pointer;
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+
+  &.variantElevated {
+    background-color: var(--md-sys-color-surface-container-low);
+    box-shadow: var(--md-sys-elevation-level1);
+
+    &.interactive:hover {
+      box-shadow: var(--md-sys-elevation-level2);
+      background-color: var(--md-sys-color-surface-container);
+    }
+  }
+
+  &.variantFilled {
+    background-color: var(--md-sys-color-surface-container-high);
+
+    &.interactive:hover {
+      background-color: var(--md-sys-color-surface-container-highest);
+    }
+  }
+
+  &.variantOutlined {
+    background-color: var(--md-sys-color-surface);
+    border-color: var(--md-sys-color-outline-variant);
+
+    &.interactive:hover {
+      background-color: var(--md-sys-color-surface-container-low);
+      border-color: var(--md-sys-color-outline);
+      box-shadow: var(--md-sys-elevation-level1);
+    }
+  }
+}
