@@ -1,11 +1,13 @@
 {
   "name": "backend",
-  "module": "index.ts",
+  "version": "1.0.0",
+  "main": "dist/index.js",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "bun --watch src/index.ts",
-    "start": "bun src/index.ts",
+    "build": "bun build src/index.ts --target=node --outfile=dist/index.js",
+    "start": "node dist/index.js",
     "test": "bun test"
   },
   "devDependencies": {

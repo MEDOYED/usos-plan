@@ -1,6 +1,7 @@
 import type { SummaryResponse, TimetableResponse, TodayResponse } from '../types/index.ts';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const rawBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const API_BASE_URL = rawBaseUrl.replace(/\/+$/, '');
 
 export class ApiError extends Error {
   status?: number;
