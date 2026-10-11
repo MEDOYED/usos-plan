@@ -93,6 +93,19 @@ export function getWarsawDayOfWeek(date: Date): number {
 }
 
 /**
+ * Safely extracts a string from node-ical properties which may be string or ParameterValue object
+ */
+function getIcalString(val: unknown): string {
+  if (!val) return '';
+  if (typeof val === 'string') return val.trim();
+  if (typeof val === 'object' && val !== null && 'val' in val) {
+    const inner = (val as { val: unknown }).val;
+    if (typeof inner === 'string') return inner.trim();
+  }
+  return String(val).trim();
+}
+
+/**
  * Parses a single VEVENT component from node-ical into a normalized ClassSession
  */
 export function parseVEvent(event: VEvent): ClassSession | null {
@@ -100,7 +113,7 @@ export function parseVEvent(event: VEvent): ClassSession | null {
     return null;
   }
 
-  const rawSummary = (event.summary || '').trim();
+  const rawSummary = getIcalString(event.summary);
 
   // Extract type code and title (e.g. "CK - Rachunkowość zarządcza..." or "W2 - ...")
   let typeCode = '';
@@ -115,7 +128,7 @@ export function parseVEvent(event: VEvent): ClassSession | null {
   const { type, label: typeLabel } = parseClassType(typeCode);
 
   // Parse description fields
-  const description = (event.description || '').trim();
+  const description = getIcalString(event.description);
   let room = '';
   let building = '';
   let url = '';
@@ -138,8 +151,8 @@ export function parseVEvent(event: VEvent): ClassSession | null {
   // Find building by taking lines that are not Sala and not URL
   const descLines = description
     .split(/\r?\n/)
-    .map(line => line.trim())
-    .filter(line => line.length > 0 && !line.startsWith('Sala:') && !line.startsWith('http'));
+    .map((line: string) => line.trim())
+    .filter((line: string) => line.length > 0 && !line.startsWith('Sala:') && !line.startsWith('http'));
 
   if (descLines.length > 0 && descLines[0]) {
     building = descLines[0];
@@ -173,7 +186,7 @@ export function parseVEvent(event: VEvent): ClassSession | null {
     durationMinutes,
     room: room || 'Brak sali',
     building: building || 'Uniwersytet Łódzki',
-    location: (event.location || '').trim() || 'Wydział Zarządzania UŁ',
+    location: getIcalString(event.location) || 'Wydział Zarządzania UŁ',
     url: url || undefined,
     status: (event.status || 'CONFIRMED').toUpperCase(),
   };
@@ -182,7 +195,7 @@ export function parseVEvent(event: VEvent): ClassSession | null {
 /**
  * Parses all VEVENT components from raw node-ical object
  */
-export function parseAllEvents(rawComponents: Record<string, CalendarComponent>): ClassSession[] {
+export function parseAllEvents(rawComponents: Record<string, CalendarComponent | undefined>): ClassSession[] {
   const sessions: ClassSession[] = [];
 
   for (const key of Object.keys(rawComponents)) {
