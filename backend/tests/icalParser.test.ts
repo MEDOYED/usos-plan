@@ -4,6 +4,7 @@ import {
   formatWarsawDate,
   formatWarsawTime,
   getWarsawDayOfWeek,
+  normalizeIcsTimezones,
   parseClassType,
   parseVEvent,
 } from '../src/services/icalParser.ts';
@@ -75,5 +76,24 @@ describe('icalParser service', () => {
     expect(parsed.durationMinutes).toBe(100);
     expect(parsed.dayName).toBe('Poniedziałek');
     expect(parsed.date).toBe('2026-10-12');
+  });
+
+  it('normalizes floating USOS dates by binding them to Europe/Warsaw timezone', () => {
+    const rawICS = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//MUCI//NONSGML USOS API 7.3.1.0-1\, 7f9c2e128 (2026-07-14)//EN
+X-WR-CALNAME:Plan zajęć USOS
+X-WR-TIMEZONE:Europe/Warsaw
+BEGIN:VEVENT
+SUMMARY:CK - Rachunkowość
+DTSTART;VALUE=DATE-TIME:20261012T103500
+DTEND;VALUE=DATE-TIME:20261012T121500
+UID:test-123
+END:VEVENT
+END:VCALENDAR`;
+
+    const normalized = normalizeIcsTimezones(rawICS);
+    expect(normalized).toContain('DTSTART;TZID=Europe/Warsaw:20261012T103500');
+    expect(normalized).toContain('DTEND;TZID=Europe/Warsaw:20261012T121500');
   });
 });

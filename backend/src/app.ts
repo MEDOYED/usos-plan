@@ -2,6 +2,9 @@ import cors from 'cors';
 import express, { type Application } from 'express';
 import timetableRoutes from './routes/timetableRoutes.ts';
 
+// Force Poland timezone as default fallback for serverless environments (e.g. Vercel)
+process.env.TZ = 'Europe/Warsaw';
+
 const app: Application = express();
 
 // Enable CORS for frontend requests (local dev & production)

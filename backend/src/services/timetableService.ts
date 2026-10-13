@@ -8,7 +8,7 @@ import type {
   TimetableResponse,
   TodayResponse,
 } from '../types/index.ts';
-import { formatWarsawDate, parseAllEvents } from './icalParser.ts';
+import { formatWarsawDate, normalizeIcsTimezones, parseAllEvents } from './icalParser.ts';
 
 interface CacheEntry {
   sessions: ClassSession[];
@@ -33,11 +33,19 @@ export async function fetchCalendar(forceRefresh = false): Promise<CacheEntry> {
   }
 
   try {
-    const rawEvents = await ical.async.fromURL(config.calendarUrl);
+    const response = await fetch(config.calendarUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch calendar: ${response.status} ${response.statusText}`);
+    }
+    const rawIcs = await response.text();
+    const normalizedIcs = normalizeIcsTimezones(rawIcs, config.timezone);
+    const rawEvents = ical.parseICS(normalizedIcs);
     const sessions = parseAllEvents(rawEvents);
 
+    const vcal = rawEvents.vcalendar as Record<string, string> | undefined;
     const calendarName =
-      (rawEvents.vcalendar as Record<string, string> | undefined)?.['wr-calname'] ||
+      vcal?.['WR-CALNAME'] ||
+      vcal?.['wr-calname'] ||
       'USOS - Plan zajęć';
 
     memoryCache = {

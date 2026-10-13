@@ -12,6 +12,18 @@ const POLISH_DAYS = [
 ];
 
 /**
+ * USOS outputs floating local dates (without TZID) while specifying X-WR-TIMEZONE:Europe/Warsaw.
+ * In node-ical, missing TZID causes fallback to the server's local timezone (UTC on Vercel),
+ * which leads to an unintended offset when converted back to Warsaw time.
+ * This injects TZID=Europe/Warsaw so dates are parsed consistently regardless of the host environment timezone.
+ */
+export function normalizeIcsTimezones(icsText: string, timezone = 'Europe/Warsaw'): string {
+  return icsText
+    .replace(/^DTSTART(;VALUE=DATE-TIME)?:(\d{8}T\d{6})\r?$/gim, `DTSTART;TZID=${timezone}:$2`)
+    .replace(/^DTEND(;VALUE=DATE-TIME)?:(\d{8}T\d{6})\r?$/gim, `DTEND;TZID=${timezone}:$2`);
+}
+
+/**
  * Maps abbreviation code to ClassType and descriptive Polish label
  */
 export function parseClassType(code: string): { type: ClassType; label: string } {

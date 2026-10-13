@@ -36650,6 +36650,9 @@ var POLISH_DAYS = [
   "Piątek",
   "Sobota"
 ];
+function normalizeIcsTimezones(icsText, timezone = "Europe/Warsaw") {
+  return icsText.replace(/^DTSTART(;VALUE=DATE-TIME)?:(\d{8}T\d{6})\r?$/gim, `DTSTART;TZID=${timezone}:$2`).replace(/^DTEND(;VALUE=DATE-TIME)?:(\d{8}T\d{6})\r?$/gim, `DTEND;TZID=${timezone}:$2`);
+}
 function parseClassType(code) {
   const upper = (code || "").toUpperCase().trim();
   switch (upper) {
@@ -36813,9 +36816,16 @@ async function fetchCalendar(forceRefresh = false) {
     return memoryCache;
   }
   try {
-    const rawEvents = await node_ical_default.async.fromURL(config.calendarUrl);
+    const response = await fetch(config.calendarUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch calendar: ${response.status} ${response.statusText}`);
+    }
+    const rawIcs = await response.text();
+    const normalizedIcs = normalizeIcsTimezones(rawIcs, config.timezone);
+    const rawEvents = node_ical_default.parseICS(normalizedIcs);
     const sessions = parseAllEvents(rawEvents);
-    const calendarName = rawEvents.vcalendar?.["wr-calname"] || "USOS - Plan zajęć";
+    const vcal = rawEvents.vcalendar;
+    const calendarName = vcal?.["WR-CALNAME"] || vcal?.["wr-calname"] || "USOS - Plan zajęć";
     memoryCache = {
       sessions,
       calendarName,
@@ -37008,6 +37018,7 @@ router.get("/timetable/summary", getSummary2);
 var timetableRoutes_default = router;
 
 // src/app.ts
+process.env.TZ = "Europe/Warsaw";
 var app = import_express2.default();
 app.use(import_cors.default({
   origin: "*",
